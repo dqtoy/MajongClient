@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouDiZhu", "DouDiZhu.csproj", "{91CF47B0-11F0-8235-AFA2-9BD2C49BB8F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DouDiZhu.Editor", "DouDiZhu.Editor.csproj", "{95895765-69CB-3BA6-1E71-CB7E415678E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91CF47B0-11F0-8235-AFA2-9BD2C49BB8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CF47B0-11F0-8235-AFA2-9BD2C49BB8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CF47B0-11F0-8235-AFA2-9BD2C49BB8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CF47B0-11F0-8235-AFA2-9BD2C49BB8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95895765-69CB-3BA6-1E71-CB7E415678E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95895765-69CB-3BA6-1E71-CB7E415678E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95895765-69CB-3BA6-1E71-CB7E415678E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95895765-69CB-3BA6-1E71-CB7E415678E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
