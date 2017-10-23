@@ -71,14 +71,17 @@ public class MajongCardsController : MonoBehaviour
     {
         if (reCode == 0)
         {
-            lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), MyFirstDiscard.position, Quaternion.identity,MyFirstDiscard.parent) as GameObject;
+            Vector3 myDiscardPos = MyFirstDiscard.position + new Vector3(xOffset*(nMyDiscard%20), -yOffset*(nMyDiscard%20), 0);
+            lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), myDiscardPos, Quaternion.identity,MyFirstDiscard.parent) as GameObject;
             lastDiscard.transform.Find("Tile").GetComponent<Image>().sprite = getSpriteByTileId(id);
             lastDiscard.transform.position = MyFirstDiscard.position+new Vector3(xOffset * (int)(nMyDiscard%20),-yOffset*(int)(nMyDiscard / 20),0);
             ExtraCard.localScale = Vector3.zero;
+            MyMjongCards.Remove(id);
         }
         else
         {
-            lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), ItFirstDiscard.position, Quaternion.identity,ItFirstDiscard.parent) as GameObject;
+            Vector3 itDiscardPos = ItFirstDiscard.position + new Vector3(-xOffset*(nItDiscard%20), yOffset*(nItDiscard%20), 0);
+            lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), itDiscardPos, Quaternion.identity,ItFirstDiscard.parent) as GameObject;
             lastDiscard.transform.SetSiblingIndex(0);
             lastDiscard.transform.Find("Tile").GetComponent<Image>().sprite = getSpriteByTileId(id);
             lastDiscard.transform.position = MyFirstDiscard.position + new Vector3(-xOffset * (int)(nMyDiscard % 20), yOffset * (int)(nMyDiscard / 20), 0);
