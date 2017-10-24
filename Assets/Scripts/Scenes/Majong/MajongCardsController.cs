@@ -17,6 +17,7 @@ public class MajongCardsController : MonoBehaviour
     //显示出牌
     public Transform MyFirstDiscard;//己方第一个出牌的位置
     public Transform ItFirstDiscard;//对方第一个出牌的位置
+
     private float xOffset = 45.0f;
     private float yOffset = 55.0f;
     private int nMyDiscard ,nItDiscard= 0;//出牌数量
@@ -29,7 +30,6 @@ public class MajongCardsController : MonoBehaviour
     /// <param name="cards"></param>
     public void ShowMajongCards()
     {
-        Debug.Log("ShowMajongCards");
         MyMjongCards.Sort((x, y) => -x.CompareTo(y));
         for (int i = 0; i < 13; i++)
         {
@@ -53,8 +53,6 @@ public class MajongCardsController : MonoBehaviour
     /// <param name="tileId"></param>
     public void ShowExtraCard(int tileId)
     {
-        Debug.Log("ShowExtraCard");
-
         if (tileId == -1)
         {
             ExtraCardBack.localScale = Vector3.one;
@@ -69,23 +67,28 @@ public class MajongCardsController : MonoBehaviour
 
     public void ShowDiscard(int reCode,int id)
     {
+        Debug.Log("出牌Code:" + reCode);
         if (reCode == 0)
         {
-            Vector3 myDiscardPos = MyFirstDiscard.position + new Vector3(xOffset*(nMyDiscard%20), -yOffset*(nMyDiscard%20), 0);
+            Vector3 myDiscardPos = MyFirstDiscard.position + new Vector3(xOffset*(nMyDiscard%20), -yOffset*(int)(nMyDiscard/20), 0);
             lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), myDiscardPos, Quaternion.identity,MyFirstDiscard.parent) as GameObject;
             lastDiscard.transform.Find("Tile").GetComponent<Image>().sprite = getSpriteByTileId(id);
             lastDiscard.transform.position = MyFirstDiscard.position+new Vector3(xOffset * (int)(nMyDiscard%20),-yOffset*(int)(nMyDiscard / 20),0);
             ExtraCard.localScale = Vector3.zero;
+
             MyMjongCards.Remove(id);
+            ShowMajongCards();
+            nMyDiscard ++;
         }
         else
         {
-            Vector3 itDiscardPos = ItFirstDiscard.position + new Vector3(-xOffset*(nItDiscard%20), yOffset*(nItDiscard%20), 0);
+            Vector3 itDiscardPos = ItFirstDiscard.position + new Vector3(-xOffset*(nItDiscard%20), yOffset*(int)(nItDiscard/20), 0);
             lastDiscard = Instantiate(Resources.Load("Majong/UpCard"), itDiscardPos, Quaternion.identity,ItFirstDiscard.parent) as GameObject;
             lastDiscard.transform.SetSiblingIndex(0);
             lastDiscard.transform.Find("Tile").GetComponent<Image>().sprite = getSpriteByTileId(id);
-            lastDiscard.transform.position = MyFirstDiscard.position + new Vector3(-xOffset * (int)(nMyDiscard % 20), yOffset * (int)(nMyDiscard / 20), 0);
             ExtraCardBack.localScale = Vector3.zero;
+
+            nItDiscard ++;
             //吃碰杠胡检测
             Dictionary<byte, object> parameters = new Dictionary<byte, object>();
             parameters[50] = MajongCode.Getcard;

@@ -173,8 +173,8 @@ public class MajongManager : MonoBehaviour
 
     public void Excute4DisCard(OperationResponse response)
     {
-        Debug.Log("出牌");
         int id = int.Parse(response.Parameters[0].ToString());
+        Debug.Log("出牌：" + id);
         majongCardsControllerScript.ShowDiscard(response.ReturnCode,id);
     }
 

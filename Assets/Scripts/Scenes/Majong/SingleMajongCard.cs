@@ -29,7 +29,6 @@ public class SingleMajongCard : MonoBehaviour,IPointerEnterHandler,IPointerExitH
             return;
 
         int tileId = int.Parse(transform.Find("Tile").GetComponent<Image>().sprite.name);
-        Debug.Log(tileId);
         Dictionary<byte, object> paramerters = new Dictionary<byte, object>();
         paramerters[50] = MajongCode.Discard;
         paramerters[0] = tileId;
