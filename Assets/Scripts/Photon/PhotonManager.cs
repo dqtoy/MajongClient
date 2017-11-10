@@ -35,6 +35,13 @@ public class PhotonManager : MonoBehaviour,IPhotonPeerListener
 	    if (!isConnected)
             peer.Connect("127.0.0.1:5155", "Game2DouDiZhu");
         peer.Service();
+
+	    if (Input.GetKeyDown(KeyCode.R))
+	    {
+	        peer.Disconnect();
+
+	        SceneManager.LoadScene("01Main");
+	    }
     }
 
     void OnDestroy()

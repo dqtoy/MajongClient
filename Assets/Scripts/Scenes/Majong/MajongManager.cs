@@ -44,7 +44,7 @@ public class MajongManager : MonoBehaviour
     }
     #endregion
 
-    #region Public Method
+    #region Public Method for MajongHandle
     /// <summary>
     /// 进入麻将房间
     /// </summary>
@@ -65,6 +65,19 @@ public class MajongManager : MonoBehaviour
         }
     }
 
+    public void Excute4Leave(OperationResponse response)
+    {
+        if (response.ReturnCode == 0)
+        {
+            Destroy(majongLobby.gameObject);
+        }
+        else
+        {
+            string leaveName = response.Parameters[0].ToString();
+            myRoomDto.NameDetailDict.Remove(leaveName);
+        }
+    }
+
     public void Excute4Sit(OperationResponse response)
     {
         SeatDto seatDto = LitJson.JsonMapper.ToObject<SeatDto>(response.Parameters[0].ToString());
@@ -77,6 +90,7 @@ public class MajongManager : MonoBehaviour
         }
         else
         {
+            myRoomDto.SeatedList.Add(seatDto);
             if (seatDto.TableID == myTableId)
             {
                 showPlayer1Info(seatDto);
@@ -86,18 +100,21 @@ public class MajongManager : MonoBehaviour
 
     public void Excute4Stand(OperationResponse response)
     {
-        myTableId = -1;
+        
         SeatDto seatDto = LitJson.JsonMapper.ToObject<SeatDto>(response.Parameters[0].ToString());
-        tableIdStateDict[seatDto.TableID] -= seatDto.TableID;
+        tableIdStateDict[seatDto.TableID] -= seatDto.State;
+        
         string pathStr = "Majong/MajongSeatPanel/" + seatDto.TableID.ToString("00") + "/Seat" + seatDto.Id + "/HeadSculpture";
         Image smallHeadImg = majongLobby.Find(pathStr).GetComponent<Image>();
         smallHeadImg.sprite = GameManager.ins.EmptySprite;
         string nickNamePath = "Majong/MajongSeatPanel/" + seatDto.TableID.ToString("00") + "/Seat" + seatDto.Id + "/NickName";
         Text nickNameText = majongLobby.Find(nickNamePath).GetComponent<Text>();
         nickNameText.text = "";
+        SetReadyStateAtTable(seatDto, false);
         switch (response.ReturnCode)
         {
             case 0:
+                myTableId = -1;
                 Destroy(majongInterface.gameObject);
                 break;
             case 1:
@@ -148,7 +165,16 @@ public class MajongManager : MonoBehaviour
     public void Excute4GameStart(OperationResponse response)
     {
         majongCardsControllerScript = majongInterface.Find("MajongCards").GetComponent<MajongCardsController>();
-        majongCardsControllerScript.MyMjongCards = LitJson.JsonMapper.ToObject<List<int>>(response.Parameters[0].ToString());
+        List<int> myMajongCards = LitJson.JsonMapper.ToObject<List<int>>(response.Parameters[0].ToString());
+        int extraId = -1;
+        debugLogList(myMajongCards);
+        if (myMajongCards.Count == 14)
+        {
+            extraId = myMajongCards[13];
+            myMajongCards.Remove(extraId);
+        }
+        majongCardsControllerScript.SetMyMajongCards(myMajongCards);
+        
         //隐藏准备按钮
         Transform player0ReadImg = majongInterface.Find("Play0InfoPanel/ReadyImg");
         player0ReadImg.localScale = Vector3.zero;
@@ -159,6 +185,8 @@ public class MajongManager : MonoBehaviour
         majongCardsPanel.localScale = Vector3.one;
 
         majongCardsControllerScript.ShowMajongCards();
+        majongCardsControllerScript.ShowExtraCard(extraId);
+
     }
 
     public void Excute4GetCard(OperationResponse response)
@@ -178,30 +206,28 @@ public class MajongManager : MonoBehaviour
         majongCardsControllerScript.ShowDiscard(response.ReturnCode,id);
     }
 
-    public void Excute4Chow(OperationResponse response)
+    public void Excute4Operate(OperationResponse response)
     {
-
-    }
-
-    public void Excute4Pong(OperationResponse response)
-    {
-
-    }
-
-    public void Excute4Kong(OperationResponse response)
-    {
-
-    }
-
-    public void Excute4Win(OperationResponse response)
-    {
+        Debug.Log("操作类型："+(MajongOpCode)response.Parameters[1]);
+        int id = int.Parse(response.Parameters[0].ToString());
+        byte majongOpCode = byte.Parse(response.Parameters[1].ToString());
+        majongCardsControllerScript.ShowOperatedCards(response.ReturnCode, id, majongOpCode);
 
     }
 
     public void Excute4End(OperationResponse response)
     {
-
+        if (response.ReturnCode == 0 || response.ReturnCode == 1)
+        {
+            isPlaying = false;
+            List<int> majongCards = LitJson.JsonMapper.ToObject<List<int>>(response.Parameters[0].ToString());
+            majongCards.Sort();
+            majongCardsControllerScript.ShowGameOverUI(response.ReturnCode, majongCards);
+        }
+        int tableId = int.Parse(response.Parameters[1].ToString());
+        resetGameInfo(tableId);
     }
+
 
     #endregion
 
@@ -236,12 +262,16 @@ public class MajongManager : MonoBehaviour
 
     public bool CanDiscard()
     {
-        if (majongCardsControllerScript.MyMjongCards.Count%3 == 2)
+        if (majongCardsControllerScript.MyMajongCards.Count%3 == 2)
             return true;
         else
             return false;
     }
-    
+
+    public int GetTableId()
+    {
+        return myTableId;
+    }
 
     #endregion
     #region Private Method
@@ -434,6 +464,30 @@ public class MajongManager : MonoBehaviour
             player1InfoPanel.Find("ReadyImg").localScale = Vector3.one;
         }
         player1InfoPanel.localScale = Vector3.one;
+    }
+
+    /// <summary>
+    ///游戏结束重新初始化
+    /// </summary>
+    void resetGameInfo(int tableId)
+    {
+        tableIdStateDict[myTableId] = 0;
+        SetPlayingSpriteAtTable(tableId,false);
+        string pathStr1 = "Majong/MajongSeatPanel/" + tableId.ToString("00") + "/Table/State/Seat0State";
+        string pathStr2 = "Majong/MajongSeatPanel/" + tableId.ToString("00") + "/Table/State/Seat1State";
+        majongLobby.Find(pathStr1).GetComponent<Image>().sprite = GameManager.ins.EmptySprite;
+        majongLobby.Find(pathStr2).GetComponent<Image>().sprite = GameManager.ins.EmptySprite;
+
+    }
+
+    void debugLogList(List<int> ls)
+    {
+        string str = "";
+        foreach (var item in ls)
+        {
+            str += item+ " ";
+        }
+        Debug.Log(str);
     }
 
     #endregion

@@ -9,7 +9,7 @@ public class MajongUIEvent : MonoBehaviour {
     {
         if (MajongManager.ins.IsMajongPlaying())
         {
-            
+            return;
         }
         Dictionary<byte, object> parameters = new Dictionary<byte, object>();
         parameters[50] = MajongCode.Stand;

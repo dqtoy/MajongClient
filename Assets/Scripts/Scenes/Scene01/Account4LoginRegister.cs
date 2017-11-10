@@ -88,7 +88,6 @@ public class Account4LoginRegister : MonoBehaviour
 
     public void OnMajongClick()
     {
-
         Dictionary<byte, object> parameters = new Dictionary<byte, object>();
         parameters[50] = MajongCode.Enter;
         PhotonManager.Ins.OnOperationRequest((byte)OpCode.Majong, parameters);

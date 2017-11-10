@@ -64,20 +64,21 @@ public class MajongReceive : IReceiveHandler
     {
         MajongManager.ins.Excute4Ready(response);
     }
-
+    /// <summary>
+    /// 离开位置
+    /// </summary>
+    /// <param name="response"></param>
     void stand(OperationResponse response)
     {
         MajongManager.ins.Excute4Stand(response);
     }
-
+    /// <summary>
+    /// 离开返回游戏选择界面
+    /// </summary>
+    /// <param name="response"></param>
     void leave(OperationResponse response)
     {
-        DetailDto detailDto = LitJson.JsonMapper.ToObject<DetailDto>(response.Parameters[0].ToString());
-        Scene02Manager.Ins.MyRoomDto.NameDetailDict.Remove(detailDto.Name);
-        if (response.ReturnCode == 0)
-        {
-            Scene02Manager.Ins.BackToLobby();
-        }
+        MajongManager.ins.Excute4Leave(response);
     }
 
     void start(OperationResponse response)
@@ -95,10 +96,10 @@ public class MajongReceive : IReceiveHandler
     }
     void operate(OperationResponse response)
     {
-
+        MajongManager.ins.Excute4Operate(response);
     }
     void end(OperationResponse response)
     {
-
+        MajongManager.ins.Excute4End(response);
     }
 }

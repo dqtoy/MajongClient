@@ -108,11 +108,11 @@ public class LoadUserInfo : MonoBehaviour
     /// </summary>
     public void OnReadyClick()
     {
-        Scene02Manager.Ins.mySeatDto.State = 1;
-        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
-        parameters[50] = MajongCode.Ready;
-        parameters[0] = LitJson.JsonMapper.ToJson(Scene02Manager.Ins.mySeatDto);
-        PhotonManager.Ins.OnOperationRequest((byte)OpCode.Majong, parameters);
+//        Scene02Manager.Ins.mySeatDto.State = 1;
+//        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+//        parameters[50] = MajongCode.Ready;
+//        parameters[0] = LitJson.JsonMapper.ToJson(Scene02Manager.Ins.mySeatDto);
+//        PhotonManager.Ins.OnOperationRequest((byte)OpCode.Majong, parameters);
     }
     /// <summary>
     /// 发送更改消息到服务器
