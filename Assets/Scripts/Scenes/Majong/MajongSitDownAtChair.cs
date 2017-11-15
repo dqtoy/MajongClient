@@ -7,11 +7,15 @@ using UnityEngine.EventSystems;
 
 public class MajongSitDownAtChair : MonoBehaviour {
 
+    /// <summary>
+    /// Click seat
+    /// </summary>
     public void ActSitDowm()
     {
         GameObject curObj = EventSystem.current.currentSelectedGameObject;
         int tableId = int.Parse(curObj.transform.parent.name);
         int seatId = int.Parse(curObj.transform.name.Substring(curObj.transform.name.Length - 1,1));
+        //判断是否座位已被占
         if (MajongManager.ins.IsSitted(tableId, seatId))
         {
             return;

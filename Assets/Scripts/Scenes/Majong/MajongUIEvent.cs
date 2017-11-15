@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MajongUIEvent : MonoBehaviour {
 
+    /// <summary>
+    /// 返回麻将大厅
+    /// </summary>
     public void OnToMajongLobbyBtnClick()
     {
         if (MajongManager.ins.IsMajongPlaying())
@@ -15,7 +18,9 @@ public class MajongUIEvent : MonoBehaviour {
         parameters[50] = MajongCode.Stand;
         PhotonManager.Ins.OnOperationRequest((byte)OpCode.Majong, parameters);
     }
-
+    /// <summary>
+    /// 游戏准备按钮
+    /// </summary>
     public void OnReadyBtnClick()
     {
         Dictionary<byte, object> parameters = new Dictionary<byte, object>();

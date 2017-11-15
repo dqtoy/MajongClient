@@ -275,6 +275,9 @@ public class MajongManager : MonoBehaviour
 
     #endregion
     #region Private Method
+    /// <summary>
+    /// 座位坐下后，显示麻将界面，获取句柄
+    /// </summary>
     void getHandler()
     {
         //句柄获取
@@ -287,7 +290,10 @@ public class MajongManager : MonoBehaviour
 
         myInfoDto = PhotonManager.Ins.userDetail;
     }
-
+    /// <summary>
+    /// 初始化麻将界面UI
+    /// </summary>
+    /// <param name="roomDto"></param>
     void initLobby(RoomDto roomDto)
     {
 
@@ -351,7 +357,11 @@ public class MajongManager : MonoBehaviour
             nickNameText.text = "";
         }
     }
-
+    /// <summary>
+    /// 坐下后设置头像在作为上
+    /// </summary>
+    /// <param name="imageName"></param>
+    /// <param name="smallHeadImage"></param>
     void SetHeadSculptureAtChair(string imageName, Image smallHeadImage)
     {
         if (nameHeadSpriteDict.ContainsKey(imageName))
@@ -363,17 +373,13 @@ public class MajongManager : MonoBehaviour
             StartCoroutine(DownLoadAndSetHeadSprite(imageName, smallHeadImage));
         }
     }
-    IEnumerator DownLoadHeadSprite(string imageName)
-    {
-        string imgPath = Config.ServerPath + imageName + ".jpg";
-        WWW www = new WWW(imgPath);
-        yield return www;
 
-        Texture2D tex2D = www.texture;
-        Sprite curSprite = Sprite.Create(tex2D, new Rect(0, 0, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f));
-        nameHeadSpriteDict.Add(imageName, curSprite);
-    }
-
+    /// <summary>
+    /// 携程下载图片和设置在Image上
+    /// </summary>
+    /// <param name="imageName"></param>
+    /// <param name="smallHeadImage"></param>
+    /// <returns></returns>
     IEnumerator DownLoadAndSetHeadSprite(string imageName,Image smallHeadImage)
     {
         Debug.Log(imageName+"  "+ smallHeadImage.name);
@@ -404,13 +410,10 @@ public class MajongManager : MonoBehaviour
         stateImg.sprite = sprite;
     }
     /// <summary>
-    /// 从服务器下载图片并且贴到Image上
+    /// 显示Playing状态
     /// </summary>
-    /// <param name="imageName"></param>
-    /// <param name="image"></param>
-    /// <returns></returns>
-    
-
+    /// <param name="tableId"></param>
+    /// <param name="setBool"></param>
     void SetPlayingSpriteAtTable(int tableId, bool setBool)
     {
         Sprite sprite = GameManager.ins.EmptySprite;
@@ -450,7 +453,10 @@ public class MajongManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// 显示对手
+    /// </summary>
+    /// <param name="seatDto"></param>
     void showPlayer1Info(SeatDto seatDto)
     {
         player1InfoPanel = majongInterface.Find("Play1InfoPanel");

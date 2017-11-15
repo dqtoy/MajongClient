@@ -144,6 +144,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="MajongClient.csproj">
+      <Project>{AA0AD90B-6CC7-5B46-776A-3BC9903709A0}</Project>
+      <Name>MajongClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\Editor\SetCardsPosition.cs" />
   </ItemGroup>
   <ItemGroup>

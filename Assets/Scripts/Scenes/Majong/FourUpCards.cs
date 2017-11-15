@@ -32,7 +32,12 @@ public class FourUpCards :MonoBehaviour
         card4 = transform.Find("UpCard3");
         tile4 = card4.Find("Tile").GetComponent<Image>();
     }
-
+    /// <summary>
+    /// 根据麻将牌 和 操作类型显示卡牌
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="code"></param>
+    /// <returns></returns>
     public int ShowCards(int id,byte code)
     {
         transform.gameObject.SetActive(true);
@@ -78,7 +83,9 @@ public class FourUpCards :MonoBehaviour
         }
         return soundId;
     }
-
+    /// <summary>
+    /// 触发吃碰杠操作
+    /// </summary>
     public void SelfClick()
     {
         Debug.Log("SelfClick");
@@ -88,7 +95,11 @@ public class FourUpCards :MonoBehaviour
         parameters[50] = MajongCode.Operate;
         PhotonManager.Ins.OnOperationRequest((byte) OpCode.Majong, parameters);
     }
-
+    /// <summary>
+    /// 外部调用，碰变成杠
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public bool PongToKong(int id)
     {
         if (id == myTile && myOpCode == (byte)MajongOpCode.Pong)

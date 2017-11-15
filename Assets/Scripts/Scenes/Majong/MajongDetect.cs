@@ -7,7 +7,12 @@ public class MajongDetect  {
     {
         return false;
     }
-
+    /// <summary>
+    /// 吃碰杠的监测
+    /// </summary>
+    /// <param name="cards"></param>
+    /// <param name="singleCard"></param>
+    /// <returns></returns>
     public List<byte> Detect(List<int> cards, int singleCard)
     {
         List<byte> opList = new List<byte>();
@@ -34,7 +39,12 @@ public class MajongDetect  {
         }
         return opList;
     }
-
+    /// <summary>
+    /// 没有百搭的胡牌规则
+    /// </summary>
+    /// <param name="cards"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public bool isHuWithoutJoker(List<int> cards, int id)
     {
         List<int> mCards = new List<int>(cards);

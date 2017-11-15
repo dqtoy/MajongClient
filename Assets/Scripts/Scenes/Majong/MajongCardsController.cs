@@ -58,6 +58,10 @@ public class MajongCardsController : MonoBehaviour
     }
     #region public fuction
 
+    /// <summary>
+    /// 麻将牌赋值
+    /// </summary>
+    /// <param name="cards"></param>
     public void SetMyMajongCards(List<int> cards)
     {
         MyMajongCards = new List<int>(cards);
@@ -115,7 +119,11 @@ public class MajongCardsController : MonoBehaviour
             }
         }
     }
-    
+    /// <summary>
+    /// 显示出牌
+    /// </summary>
+    /// <param name="reCode"></param>
+    /// <param name="id"></param>
     public void ShowDiscard(int reCode,int id)
     {
         
@@ -133,6 +141,7 @@ public class MajongCardsController : MonoBehaviour
             ShowMajongCards();
             nMyDiscard ++;
 
+            //手牌可以杠，出牌后隐藏
             if (isKong)
             {
                 hideMajongOperationUI();
@@ -173,7 +182,12 @@ public class MajongCardsController : MonoBehaviour
             
         }
     }
-
+    /// <summary>
+    /// 显示吃碰杠胡后，手牌减少，左下角显示
+    /// </summary>
+    /// <param name="reCode"></param>
+    /// <param name="id"></param>
+    /// <param name="code"></param>
     public void ShowOperatedCards(int reCode,int id, byte code)
     {
         bool isSingleKong = false;
